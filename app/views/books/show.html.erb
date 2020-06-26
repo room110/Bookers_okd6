@@ -2,10 +2,9 @@
 <div class="container">
   <div class="row">
     <%= render 'users/list', user: @user, book:@book_new %>
-     <div class="col-xs-9">
-  <h2>Book detail</h2>
-
-  <table class="table table-hover table-inverse">
+  <div class="col-xs-9">
+    <h2>Book detail</h2>
+      <table class="table table-hover table-inverse">
         <tr>
           <th><%= link_to user_path(@user.id) do %>
             <%= attachment_image_tag @book.user, :profile_image, :fill, 30, 30, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %><br><%= @user.name %><% end %>
@@ -20,45 +19,19 @@
           <%= link_to "Edit", edit_book_path(@book.id) %><% end %></th>
           <th><% if @user.id == current_user.id %>
           <%= link_to "Destroy", book_path(@book.id), method: :delete, "data-confirm" => "本当に削除しますか？" %><% end %></th>
-          <th>
-            <% if @book.favorited_by?(current_user) %>
-                  <%= link_to book_favorites_path(@book), method: :delete do %>
-                  <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
-                  <%= @book.favorites.count %>
-                  <% end %>
-            <% else %>
-                  <%= link_to book_favorites_path(@book), method: :post do %>
-                  <i class="fa fa-heart-o" aria-hidden="true"></i>
-                  <%= @book.favorites.count %>
-                  <% end %>
-            <% end %>
+          <th id="favorites_buttons_<%= @book.id %>">
+            <%= render partial:'favorites/favorite', locals:{book:@book} %>
           </th>
           <th>コメント数:<%= @book.book_comments.count %></th>
        </tr>
-      
-       <% @book.book_comments.each do |book_comment| %>
-       <tr>
-          <th><%= link_to user_path(@user.id) do %>
-            <%= attachment_image_tag book_comment.user, :profile_image, :fill, 30, 30, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %><br><%= book_comment.user.name %><% end %>
-          </th>
+     </table>
 
-          <th><%= book_comment.comment %></th>
-          
-          <th><% if book_comment.user == current_user %>
-                 <div>
-                    <%= link_to "削除", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-danger pull-right" %>
-                 </div>
-              <% end %>
-          </th>
-       </tr>
-       <% end %>
-  </table>
-  <div>
-              <%= form_for [@book, @book_comment] do |f| %>
-              <%= f.text_area :comment, rows:'5', class: "form-control",placeholder: "コメントをここに" %>
-              <%= f.submit "送信", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
-              <% end %>
-      </div>
+    <table id="index_buttons_<%= @book.id %>">
+      <%= render partial:'book_comments/index', locals:{book:@book, user:@user} %>
+    </table>
+    <div id="form_buttons_">
+      <%= render partial:'book_comments/form', locals:{book:@book,book_comment:@book_comment} %>
+    </div>
 </div>
 </div>
 </div>

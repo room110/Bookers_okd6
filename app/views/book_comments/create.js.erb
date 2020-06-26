@@ -1,0 +1,3 @@
+$("textarea").val('')
+$('#index_buttons_<%= @book.id %>').html("<%= j(render partial:'book_comments/index', locals:{book:@book, user:@user}) %>");
+
