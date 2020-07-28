@@ -65,3 +65,17 @@ gem "refile-mini_magick"
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails'
 gem "jquery-rails"
+#SNS認証関連gem
+#gem 'omniauth'
+#gem 'omniauth-google-oauth2'
+#gem 'omniauth-facebook'
+#gem 'dotenv-rails'
+#lineログイン認証gem
+#gem 'rack-cors'
+#gem 'devise_token_auth'
+#gem 'omniauth-line'
+gem 'dotenv-rails'
+group :production do
+  gem 'mysql2'
+end
+
